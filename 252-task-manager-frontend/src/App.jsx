@@ -10,7 +10,6 @@ import { AuthProvider } from './context/AuthContext';
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<Login />} />
@@ -18,7 +17,6 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
-      </Router>
     </AuthProvider>
   );
 
