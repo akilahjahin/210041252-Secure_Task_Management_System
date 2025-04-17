@@ -9,14 +9,27 @@ exports.createTask = async (req, res) => {
   }
 };
 
-exports.getTasks = async (req, res) => {
+// Get a single task by ID
+exports.getTaskById = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id });
+    const task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+    if (!task) return res.status(404).json({ message: 'Task not found' });
+    res.json(task);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to retrieve task' });
+  }
+};
+
+// Get all tasks for the authenticated user
+exports.getMyTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ message: 'Failed to retrieve tasks' });
   }
 };
+
 
 exports.updateTask = async (req, res) => {
   try {

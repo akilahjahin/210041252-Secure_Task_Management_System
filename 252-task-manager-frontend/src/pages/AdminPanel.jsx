@@ -1,36 +1,35 @@
-// import { useState, useEffect } from "react";
-// import axios from "axios";
+import React, { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
 
-// function AdminPanel() {
-//     const [users, setUsers] = useState([]);
+const AdminPanel = () => {
+  const [users, setUsers] = useState([]);
+  const { token } = useContext(AuthContext);
 
-//     useEffect(() => {
-//         axios
-//             .get("http://localhost:5000/api/admin/users", { headers: { Authorization: localStorage.getItem("token") } })
-//             .then((res) => setUsers(res.data))
-//             .catch((err) => console.error(err));
-//     }, []);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get('/api/admin/users', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setUsers(res.data);
+      } catch (err) {
+        console.error('Error fetching users:', err);
+      }
+    };
+    fetchUsers();
+  }, [token]);
 
-//     return (
-//         <div>
-//             <h2>Admin Panel</h2>
-//             <ul>
-//                 {users.map((user) => (
-//                     <li key={user._id}>{user.name} ({user.role})</li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// }
-
-// export default AdminPanel;
-import React from 'react';
-
-export default function AdminPanel() {
   return (
     <div>
-      <h2>Admin Panel</h2>
-      <p>Manage users and tasks here (coming soon).</p>
+      <h2>All Registered Users</h2>
+      <ul>
+        {users.map(u => (
+          <li key={u._id}>{u.email} - Role: {u.role}</li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
+
+export default AdminPanel;
