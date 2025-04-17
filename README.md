@@ -40,26 +40,26 @@ This project is a full-stack CRUD (Create, Read, Update, Delete) application wit
 
 **You need to create .env file in the backend's root directory, like the following and there, input your credentials:**
   ```bash
-   # .env (Backend)
-  PORT=5000
-  DB_URI=mongodb://localhost:27017/yourDatabaseName
-  
-  # JWT settings
-  JWT_SECRET=your_jwt_secret_key_here
-  JWT_EXPIRATION=1h
-  
-  # Email configuration for verification or password reset
-  EMAIL_USER=your_email@example.com
-  EMAIL_PASS=your_email_password
-  
-  # Frontend client URL for email links (e.g., verification or reset)
-  CLIENT_URL=http://localhost:3000
+     # .env (Backend)
+     PORT=5000
+     DB_URI=mongodb://localhost:27017/yourDatabaseName
+     
+     # JWT settings
+     JWT_SECRET=your_jwt_secret_key_here
+     JWT_EXPIRATION=1h
+     
+     # Email configuration for verification or password reset
+     EMAIL_USER=your_email@example.com
+     EMAIL_PASS=your_email_password
+     
+     # Frontend client URL for email links (e.g., verification or reset)
+     CLIENT_URL=http://localhost:3000
    ```
 **You need to create .env file in the frontend's root directory, like the following and there, input your credentials:**
-```bash
-    # .env (Frontend)
-  VITE_API_URL=http://localhost:5000/api
-  VITE_APP_NAME=MyApp
+   ```bash
+     # .env (Frontend)
+     VITE_API_URL=http://localhost:5000/api
+     VITE_APP_NAME=MyApp
    ```
 **My related MongoDB database has from Atlas:**
 **Database: USERS, Collection: users**
