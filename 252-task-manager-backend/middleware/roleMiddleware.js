@@ -1,3 +1,5 @@
+//middleware/roleMiddleware.js
+
 // General role checker: pass one or more roles
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {

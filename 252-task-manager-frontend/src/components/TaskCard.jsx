@@ -1,4 +1,4 @@
-// src/components/TaskCard.jsx
+// frontend/src/components/TaskCard.jsx
 import React from 'react';
 
 export default function TaskCard({ task }) {

@@ -1,3 +1,4 @@
+//backend/index.js
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -9,12 +10,14 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-app.use('/api/admin', authRoutes); // Admin routes
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

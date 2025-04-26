@@ -1,3 +1,4 @@
+//backend/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -14,6 +15,10 @@ module.exports = async (req, res, next) => {
 
     if (!user) {
       return res.status(401).json({ message: 'User not found' });
+    }
+
+    if (!user.isVerified) {
+      return res.status(401).json({ message: 'User not verified' });
     }
 
     req.user = user; // attach the user to the request
