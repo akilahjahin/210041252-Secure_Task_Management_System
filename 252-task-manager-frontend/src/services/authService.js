@@ -44,6 +44,28 @@ const authService = {
       console.error('Registration Error:', error);
       throw error;
     }
+  },
+
+  getAllUsers: async (token) => {
+    try {
+      const res = await fetch(`${API}/users`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Failed to fetch users');
+      }
+
+      return await res.json();
+    } catch (error) {
+      console.error('Get Users Error:', error);
+      throw error;
+    }
   }
 };
 

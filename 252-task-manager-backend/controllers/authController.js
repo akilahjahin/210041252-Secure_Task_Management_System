@@ -27,10 +27,12 @@ exports.register = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    // Only returning non-admin users and exclude password field
+    const users = await User.find({ role: 'user' }).select('-password');
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Server error while fetching users' });
   }
 };
 

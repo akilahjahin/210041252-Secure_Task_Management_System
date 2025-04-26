@@ -1,5 +1,6 @@
 //backend/controllers/taskController.js
 const Task = require('../models/Task');
+const mongoose = require('mongoose');
 
 exports.createTask = async (req, res) => {
   try {
@@ -53,5 +54,54 @@ exports.deleteTask = async (req, res) => {
     res.json({ message: 'Task deleted' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete task' });
+  }
+};
+
+// Sorting tasks by priority or duedate
+exports.sortTasks = async (req, res) => {
+  try {
+    const { sortBy } = req.query;
+    const userId = req.user.id;
+
+    if (!['priority', 'dueDate'].includes(sortBy)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid sort parameter'
+      });
+    }
+
+    if (sortBy === 'priority') {
+      const tasks = await Task.aggregate([
+        { $match: { user: new mongoose.Types.ObjectId(userId) } },
+        {
+          $addFields: {
+            priorityOrder: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$priority", "high"] }, then: 1 },
+                  { case: { $eq: ["$priority", "medium"] }, then: 2 },
+                  { case: { $eq: ["$priority", "low"] }, then: 3 }
+                ],
+                default: 4
+              }
+            }
+          }
+        },
+        { $sort: { priorityOrder: 1 } },
+        { $project: { priorityOrder: 0 } }
+      ]);
+      return res.json({ success: true, data: tasks });
+    } else {
+      // dueDate sorting
+      const tasks = await Task.find({ user: userId }).sort({ dueDate: 1 });
+      return res.json({ success: true, data: tasks });
+    }
+  } catch (err) {
+    console.error('Sorting Error:', err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to sort tasks',
+      error: err.message
+    });
   }
 };

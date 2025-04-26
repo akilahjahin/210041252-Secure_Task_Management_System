@@ -1,12 +1,12 @@
 // frontend/src/pages/Register.jsx
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 
 export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', role: '', password: '' });
   const [message, setMessage] = useState('');
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,7 +17,7 @@ export default function Register() {
     try {
       await authService.register(form);
       setMessage(`Check and verify your email at ${form.email}`);
-      //navigate('/');
+
     } catch (err) {
       console.error("Registration failed:", err);
       setMessage("Failed to register. Please try again.");
@@ -76,6 +76,15 @@ export default function Register() {
         </button>
       </form>
       {message && <p style={{ textAlign: 'center', color: '#00796b' }}>{message}</p>}
+      <button
+          type="button"
+          style={{
+            width: '100%', padding: '0.8rem', backgroundColor: '#222', color: '#fff', border: 'none', borderRadius: '4px', marginTop: '30px'
+          }}
+          onClick={() => navigate('/')}
+        >
+          Go Back To Home
+        </button>
     </div>
   );
 }

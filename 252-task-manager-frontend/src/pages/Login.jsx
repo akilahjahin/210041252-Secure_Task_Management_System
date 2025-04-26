@@ -77,6 +77,15 @@ export default function Login() {
           Login
         </button>
       </form>
+      <button
+          type="button"
+          style={{
+            width: '100%', padding: '0.8rem', backgroundColor: '#222', color: '#fff', border: 'none', borderRadius: '4px', marginTop: '12px'
+          }}
+          onClick={() => navigate('/')}
+        >
+          Go Back To Home
+        </button>
     </div>
   );
 }
